@@ -1,3 +1,26 @@
+.vscode/**/*
+input/
+output/
+work/
+log/
+tmp/
+dataset/
+dataset*/
+model*/
+result*/
+src/mnist
+src/tensorboard
+
+._.DS_Store
+.DS_Store
+
+*.pkl
+*.p
+*.hdf5
+*.h5
+
+# Github Python標準定義
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -45,7 +68,6 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
-.pytest_cache/
 
 # Translations
 *.mo
@@ -53,8 +75,9 @@ coverage.xml
 
 # Django stuff:
 *.log
+.static_storage/
+.media/
 local_settings.py
-db.sqlite3
 
 # Flask stuff:
 instance/
