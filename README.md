@@ -1,2 +1,10 @@
 # skyz_pyutils
-python utils
+
+## update
+
+```python
+# change ver setting & build
+python setup.py sdist
+# upload
+twine upload dist/*
+```
