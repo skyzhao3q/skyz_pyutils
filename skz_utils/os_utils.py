@@ -63,8 +63,8 @@ def get_dir_name_list(dir_root_path):
             dir_name_list.append(x)
     return dir_name_list
 
-def get_dir_path_list(dir_root_path):
-    '''get dir_path list under root_dir
+def get_sub_dir_path_list(dir_root_path):
+    '''get sub_dir_path list under root_dir
     '''
     dir_path_list = []
     for x in os.listdir(dir_root_path):
@@ -114,8 +114,18 @@ def get_file_path_list(dirPath, ext):
             file_path_list.append(dirPath + "/" + x)
     return file_path_list
 
-def count_files(dirpath, ext):
+def sum_files(dirpath, ext):
     return len(get_file_name_list(dirpath, ext))
+
+def sum_sub_dir_files(dir_path, ext):
+    sub_dir_path_list = sorted(get_sub_dir_path_list(dir_path))
+    sub_dir_name_list = []
+    sub_dir_sum_list = []
+    for sub_dir_path in sub_dir_path_list:
+        sub_dir_name_list.append(get_dir_name(sub_dir_path))
+        sub_dir_sum_list.append(sum_files(sub_dir_path, ext))
+    
+    return sub_dir_sum_list, sub_dir_name_list
 
 #want to remove functions ####################################################################
 def getSubDirListOf(dirPath):

@@ -35,6 +35,18 @@ def read_img_dir(img_dir_path, ext, input_shape, threshold_val):
 
     return img_ds, img_file_path_list
 
+def image_dataset_from(img_file_path_list, input_shape, threshold_val=None):
+    '''read image set and convert to input_shape
+    '''
+    img_list = []
+    for img_file_path in img_file_path_list:
+        img = read_img_file(img_file_path, input_shape, threshold_val=threshold_val)
+        img_list.append(img)
+    # reshape
+    img_ds = np.array(img_list).reshape(-1, input_shape[0], input_shape[1], input_shape[2])
+
+    return img_ds
+
 def read_img_label_dir(img_label_dir_path, ext, input_shape, threshold_val):
     ''' read image-label directory
     '''

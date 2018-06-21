@@ -48,3 +48,16 @@ def vi_confusion_matrix(y_true, y_pred, filename, labels, ymap=None, figsize=(10
     fig, ax = plt.subplots(figsize=figsize)
     sns.heatmap(cm, annot=annot, fmt='', ax=ax)
     plt.savefig(filename)
+
+def vi_history(history, save_file_path):
+    # Plot the loss and accuracy curves for training and validation 
+    fig, ax = plt.subplots(2,1)
+    ax[0].plot(history.history['loss'], color='b', label="Training loss")
+    ax[0].plot(history.history['val_loss'], color='r', label="validation loss",axes =ax[0])
+    legend = ax[0].legend(loc='best', shadow=True)
+
+    ax[1].plot(history.history['acc'], color='b', label="Training accuracy")
+    ax[1].plot(history.history['val_acc'], color='r',label="Validation accuracy")
+    legend = ax[1].legend(loc='best', shadow=True)
+
+    plt.savefig(save_file_path)
