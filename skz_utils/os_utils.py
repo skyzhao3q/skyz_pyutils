@@ -74,6 +74,18 @@ def get_sub_dir_path_list(dir_root_path):
     return dir_path_list
 
 # file operation
+def get_created_time(file_path):
+    t = os.path.getctime(file_path)
+    t_str = datetime.fromtimestamp(t).strftime("%Y-%m-%d-%H-%M-%S")
+
+    return t_str
+
+def get_modified_time(file_path):
+    t = os.path.getmtime(file_path)
+    t_str = datetime.fromtimestamp(t).strftime("%Y-%m-%d-%H-%M-%S")
+
+    return t_str
+
 def copy_file(src_filePath, dst_filePath):
     if not os.path.exists(src_filePath):
         return False
@@ -99,6 +111,20 @@ def get_all_files_pathList(dirPath, ext):
                 filePath = os.path.join(path, name)
                 file_pathList.append(filePath)
     return file_pathList
+
+def get_file_name_list_end_with(dirPath, ext, end_with):
+    file_name_list = []
+    for x in os.listdir(dirPath):
+        if x.endswith(end_with + '.' + ext) and not x.startswith('.'):
+            file_name_list.append(x)
+    return file_name_list
+
+def get_file_path_list_end_with(dirPath, ext, end_with):
+    file_path_list = []
+    for x in os.listdir(dirPath):
+        if x.endswith(end_with + '.' + ext) and not x.startswith('.'):
+            file_path_list.append(dirPath + "/" + x)
+    return file_path_list
 
 def get_file_name_list(dirPath, ext):
     file_name_list = []

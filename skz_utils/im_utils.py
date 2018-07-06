@@ -1,8 +1,8 @@
 import imutils
 import cv2
 import matplotlib.pyplot as plt
-import os_utils
-import ds_utils
+from . import os_utils
+from . import ds_utils
 import numpy as np
 
 def read(img_file_path, mode=('rgb', 'gray', 'bin'), threshold_val=None):
@@ -101,3 +101,19 @@ def multi_dir_image(image_dir_path, result_dir_path, batch=10, ext='png'):
     sub_image_dir_path_list = os_utils.get_dir_path_list(image_dir_path)
     for sub_image_dir_path in sub_image_dir_path_list:
         yield dir_image(sub_image_dir_path, result_dir_path, batch=batch, ext=ext)
+
+def resize_with_padding(src, dst_size, padding_color=[255,255,255]):
+    src_w = src.shape[1]
+    src_h = src.shape[0]
+    dst_w, dst_h = dst_size
+    if src_w > dst_w or src_h > dst_h:
+        src = resize_with_aspect(src, width=dst_w,  height=dst_h)
+    src_w = src.shape[1]
+    src_h = src.shape[0]
+    delta_w = dst_w  - src_w
+    delta_h = dst_h - src_h
+    top, bottom = delta_h//2, delta_h-(delta_h//2)
+    left, right = delta_w//2, delta_w-(delta_w//2)
+    dst = cv2.copyMakeBorder(src, top, bottom, left, right, cv2.BORDER_CONSTANT, value=padding_color)
+
+    return dst

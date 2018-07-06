@@ -4,7 +4,7 @@ requires = []
 
 setup(
     name='skz_utils',
-    version='0.1.2',
+    version='0.1.3',
     description='python utils',
     url='https://github.com/skyzhao3q/skyz_pyutils.git',
     author='zhao-tian',

@@ -50,14 +50,31 @@ def vi_confusion_matrix(y_true, y_pred, filename, labels, ymap=None, figsize=(10
     plt.savefig(filename)
 
 def vi_history(history, save_file_path):
-    # Plot the loss and accuracy curves for training and validation 
-    fig, ax = plt.subplots(2,1)
-    ax[0].plot(history.history['loss'], color='b', label="Training loss")
-    ax[0].plot(history.history['val_loss'], color='r', label="validation loss",axes =ax[0])
-    legend = ax[0].legend(loc='best', shadow=True)
-
-    ax[1].plot(history.history['acc'], color='b', label="Training accuracy")
-    ax[1].plot(history.history['val_acc'], color='r',label="Validation accuracy")
-    legend = ax[1].legend(loc='best', shadow=True)
-
+    loss_list = [s for s in history.history.keys() if 'loss' in s and 'val' not in s]
+    val_loss_list = [s for s in history.history.keys() if 'loss' in s and 'val' in s]
+    acc_list = [s for s in history.history.keys() if 'acc' in s and 'val' not in s]
+    val_acc_list = [s for s in history.history.keys() if 'acc' in s and 'val' in s]
+    
+    if len(loss_list) == 0:
+        print('Loss is missing in history')
+        return 
+    
+    ## As loss always exists
+    epochs = range(1,len(history.history[loss_list[0]]) + 1)
+    
+    ## Loss
+    for l in loss_list:
+        plt.plot(epochs, history.history[l], 'b', label='Training loss (' + str(str(format(history.history[l][-1],'.5f'))+')'))
+    for l in val_loss_list:
+        plt.plot(epochs, history.history[l], 'g', label='Validation loss (' + str(str(format(history.history[l][-1],'.5f'))+')'))
+    
+    ## Accuracy
+    for l in acc_list:
+        plt.plot(epochs, history.history[l], 'r', label='Training accuracy (' + str(format(history.history[l][-1],'.5f'))+')')
+    for l in val_acc_list:    
+        plt.plot(epochs, history.history[l], 'orange', label='Validation accuracy (' + str(format(history.history[l][-1],'.5f'))+')')
+    
+    plt.xlabel('Epochs')
+    plt.grid()
+    plt.legend()
     plt.savefig(save_file_path)
