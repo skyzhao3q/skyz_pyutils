@@ -1,5 +1,7 @@
 from . import os_utils
 from . import im_utils
+#import os_utils
+#import im_utils
 import cv2
 import os
 import numpy as np
@@ -54,7 +56,7 @@ def read_img_label_dir(img_label_dir_path, ext, input_shape, threshold_val):
     X, img_file_path_list = read_img_dir(img_label_dir_path, ext, input_shape, threshold_val)
     y = []
     for img_file_path in img_file_path_list:
-        label = os_utils.get_dir_name(img_file_path)
+        label = os_utils.get_parent_dirName(img_file_path)
         try:
             label = int(label)
         except ValueError:

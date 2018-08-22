@@ -13,40 +13,40 @@ def create_file_path(dir_path, file_name):
 def create_dir_path(dir_path, dir_name):
     return os.path.join(dir_path, dir_name)
 
-def give_me_dir_path(parent_dir_path, pre_dir_name=""):
+def get_unique_dir_path(parent_dir_path, pre_dir_name=""):
     dir_name = pre_dir_name + "_" + get_dateTime_str()
     return os.path.join(parent_dir_path, dir_name)
 
 # diretory operation
-def createDir (dirPath):
+def create_dir (dirPath):
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
 
-def removeDir (dirPath):
+def remove_dir (dirPath):
     if os.path.exists(dirPath):
         shutil.rmtree(dirPath, ignore_errors=True)
 
-def renameDir (dirPath):
+def rename_dir (dirPath):
     if os.path.exists(dirPath):
         dt = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         os.rename(dirPath, dirPath + "_bk_" + dt)
 
-def get_dateTime_str():
+def get_datetime_str():
     dt_str = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     return dt_str
 
-def remove_and_create_Dir(dirPath):
-    removeDir(dirPath)
-    createDir(dirPath)
+def remove_and_create_dir(dirPath):
+    remove_dir(dirPath)
+    create_dir(dirPath)
 
-def rename_and_create_Dir(dirPath):
-    renameDir(dirPath)
-    createDir(dirPath)
+def rename_and_create_dir(dirPath):
+    rename_dir(dirPath)
+    create_dir(dirPath)
 
-def get_parent_dirPath(filePath):
+def get_parent_dir_path(filePath):
     return os.path.split(filePath)[0]
 
-def get_parent_dirName(filePath):
+def get_parent_dir_name(filePath):
     dirPath = os.path.split(filePath)[0]
     return os.path.split(dirPath)[1]
 
@@ -63,7 +63,7 @@ def get_dir_name_list(dir_root_path):
             dir_name_list.append(x)
     return dir_name_list
 
-def get_sub_dir_path_list(dir_root_path):
+def get_dir_path_list(dir_root_path):
     '''get sub_dir_path list under root_dir
     '''
     dir_path_list = []
@@ -92,10 +92,10 @@ def copy_file(src_filePath, dst_filePath):
     shutil.copyfile(src_filePath, dst_filePath)
     return True
 
-def get_fileName_ext(filePath):
+def get_file_name(filePath):
     return os.path.split(filePath)[1]
 
-def get_fileName_no_ext(filePath):
+def get_file_name_without_ext(filePath):
     fileName_ext = os.path.basename(filePath)
     fileName_no_ext = os.path.splitext(fileName_ext)[0]
     return fileName_no_ext
@@ -133,12 +133,74 @@ def get_file_name_list(dirPath, ext):
             file_name_list.append(x)
     return file_name_list
 
+def get_all_file_path_list(dirPath, ext):
+    file_pathList = []
+    for path, subdirs, files in os.walk(dirPath):
+        for name in files:
+            if name.endswith('.' + ext) and not name.startswith('.'):
+                filePath = os.path.join(path, name)
+                file_pathList.append(filePath)
+    return file_pathList
+
 def get_file_path_list(dirPath, ext):
     file_path_list = []
     for x in os.listdir(dirPath):
         if x.endswith('.' + ext) and not x.startswith('.'):
             file_path_list.append(dirPath + "/" + x)
     return file_path_list
+
+#want to remove functions ####################################################################
+
+def renameDir (dirPath):
+    if os.path.exists(dirPath):
+        dt = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        os.rename(dirPath, dirPath + "_bk_" + dt)
+
+def get_dateTime_str():
+    dt_str = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    return dt_str
+
+def remove_and_create_Dir(dirPath):
+    removeDir(dirPath)
+    createDir(dirPath)
+
+def rename_and_create_Dir(dirPath):
+    renameDir(dirPath)
+    createDir(dirPath)
+
+def get_parent_dirPath(filePath):
+    return os.path.split(filePath)[0]
+def get_parent_dirName(filePath):
+    dirPath = os.path.split(filePath)[0]
+    return os.path.split(dirPath)[1]
+
+def removeDir (dirPath):
+    if os.path.exists(dirPath):
+        shutil.rmtree(dirPath, ignore_errors=True)
+def createDir (dirPath):
+    if not os.path.exists(dirPath):
+        os.makedirs(dirPath)
+
+def get_sub_dir_path_list(dir_root_path):
+    '''get sub_dir_path list under root_dir
+    '''
+    dir_path_list = []
+    for x in os.listdir(dir_root_path):
+        xPath = dir_root_path + "/" + x
+        if os.path.isdir(xPath):
+            dir_path_list.append(xPath)
+    return dir_path_list
+def get_fileName_ext(filePath):
+    return os.path.split(filePath)[1]
+
+def get_fileName_no_ext(filePath):
+    fileName_ext = os.path.basename(filePath)
+    fileName_no_ext = os.path.splitext(fileName_ext)[0]
+    return fileName_no_ext
+
+def give_me_dir_path(parent_dir_path, pre_dir_name=""):
+    dir_name = pre_dir_name + "_" + get_dateTime_str()
+    return os.path.join(parent_dir_path, dir_name)
 
 def sum_files(dirpath, ext):
     return len(get_file_name_list(dirpath, ext))
@@ -153,7 +215,6 @@ def sum_sub_dir_files(dir_path, ext):
     
     return sub_dir_sum_list, sub_dir_name_list
 
-#want to remove functions ####################################################################
 def getSubDirListOf(dirPath):
     dirList = []
     for x in os.listdir(dirPath):
